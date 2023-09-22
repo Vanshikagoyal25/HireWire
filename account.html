@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>User Registration</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <link href="img/favicon.ico" rel="icon">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Inter:wght@700;800&display=swap" rel="stylesheet">
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="css/style.css" rel="stylesheet">
+    <style>
+        .road{
+            height: 43px;
+        }
+    </style>
+  
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+</head>
+<body>
+
+        <!-- Navbar Start -->
+        <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
+          <a href="index.html" class="navbar-brand d-flex align-items-center text-center py-0 px-4 px-lg-5">
+              <h1 class="m-0 text-primary">Hire-Wire</h1>
+          </a>
+          <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+              <div class="navbar-nav ms-auto p-4 p-lg-0">
+                  <a href="index.html" class="nav-item nav-link active">Home</a>
+                  <a href="about.html" class="nav-item nav-link">About</a>
+                  <div class="nav-item dropdown">
+                      <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Jobs</a>
+                      <div class="dropdown-menu rounded-0 m-0">
+                          <a href="job-list.html" class="dropdown-item">Job List</a>
+                          <a href="job-detail.html" class="dropdown-item">Job Detail</a>
+                      </div>
+                  </div>
+                  <div class="nav-item dropdown">
+                      <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                      <div class="dropdown-menu rounded-0 m-0">
+                          <a href="category.html" class="dropdown-item">Job Category</a>
+                          <a href="testimonial.html" class="dropdown-item">Testimonial</a>
+                          <a href="404.html" class="dropdown-item">404</a>
+                      </div>
+                  </div>
+                  <a href="contact.html" class="nav-item nav-link">Contact</a>
+              </div>
+              <a href="" class="btn btn-primary rounded-0 py-4 px-lg-5 d-none d-lg-block">Post A Job<i class="fa fa-arrow-right ms-3"></i></a>
+          </div>
+      </nav>
+
+  <div style="max-width: 400px; margin: 0 auto;">
+    <h2 style="text-align: center;">Labour Registration</h2>
+    <form id="registration-form">
+      <div style="margin-bottom: 10px;">
+        <label for="name" style="display: block;">Name:</label>
+        <input type="text" id="name" style="width: 100%; padding: 5px;">
+      </div>
+      <div style="margin-bottom: 10px;">
+        <label for="number" style="display: block;">Phone Number:</label>
+        <input type="text" id="number" style="width: 100%; padding: 5px;">
+      </div>
+      
+      <div style="margin-bottom: 10px;">
+        <label for="location" style="display: block;">Location:</label>
+        <input type="text" id="location" style="width: 100%; padding: 5px;">
+      </div>
+      <div style="margin-bottom: 10px;">
+        <label for="aadhaar" style="display: block;">Aadhaar Number:</label>
+        <input type="text" id="aadhaar" style="width: 100%; padding: 5px;">
+      </div>
+      <div style="text-align: center;">
+        <input type="submit" value="Register" style="padding: 10px 20px; background-color: #4CAF50; color: #fff; border: none; cursor: pointer;">
+      </div>
+    </form>
+  </div>
+  <script>
+    // Initialize Firebase
+    var firebaseConfig = {
+      // Replace with your Firebase project's configuration
+      
+  apiKey: "AIzaSyD_3bXoWZRTlq2X5sqx4TRQfJsYo2op0Kk", 
+  
+  authDomain: "hire-wire-5930c.firebaseapp.com",
+  projectId: "hire-wire-5930c",
+  storageBucket: "hire-wire-5930c.appspot.com",
+  messagingSenderId: "11310618137",
+  appId: "1:11310618137:web:a05890b489cbd02140bc88",
+  measurementId: "G-MRNTERGPDG"
+
+
+    };
+
+    firebase.initializeApp(firebaseConfig);
+
+    var db = firebase.firestore();
+
+    // Register form submission event listener
+    var form = document.getElementById("registration-form");
+    form.addEventListener("submit", function(event) {
+      event.preventDefault(); // Prevent form submission
+
+      // Get user input values
+      var name = document.getElementById("name").value;
+      var number = document.getElementById("number").value;
+      var location = document.getElementById("location").value;
+    
+      var aadhaar = document.getElementById("aadhaar").value;
+
+      // Add document to Firestore collection
+      db.collection("Labours").add({
+        labourName: name,
+        labourNumber: number,
+        labourLocation: location,
+        labourAadhaar: aadhaar
+      })
+      .then(function(docRef) {
+        console.log("Document written with ID: ", docRef.id);
+        window.location.replace("http://127.0.0.1:5500/index.html")
+        // Reset form fields
+        form.reset();
+      })
+      .catch(function(error) {
+        console.error("Error adding document: ", error);
+      });
+    });
+  </script>
+</body>
+</html>
